@@ -18,10 +18,14 @@ const signin = async (req,res,db) => {
                     username:data.username
                 },
             });
-            if(userexits!=null){
-                if(await bcrypt.compare(data.password,userexits.password)){
+            if(userexits.dataValues!=null){
+                console.log(userexits.dataValues);
+                if(await bcrypt.compare(data.password,userexits.dataValues.password)){
                     const token = await jwt.sign(data,process.env.secretkey);
                     return res.status(200).send({token});
+                }
+                else{
+                    return res.status(400).send("wrong password");
                 }
             }
             else{

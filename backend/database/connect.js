@@ -26,11 +26,20 @@ db.users = require("../models/users")(sequelize,DataTypes);
 
 db.posts = require("../models/posts")(sequelize,DataTypes);
 
+db.profile = require("../models/profile")(sequelize,DataTypes);
+
 db.users.hasMany(db.posts);
 db.posts.belongsTo(db.users,{
   onDelete:"CASCADE",
   onUpdate:"CASCADE"
 });
+
+db.users.hasOne(db.profile);
+
+db.profile.belongsTo(db.users,{
+  onDelete:"CASCADE",
+  onUpdate:"CASCADE"
+})
 
 sequelize.sync({force:false}).then(()=>{
     console.log("table synced");

@@ -6,7 +6,14 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Drawer from "../Drawer/Drawer";
 import $ from "jquery";
-
+import Profile from "../Profile/Profile";
+import Blog from "../Blog/Blog";
+import { useSelector,useDispatch } from "react-redux";
+import {RootState} from "../../redux/store";
+import EditBackdrop from "../EditBackdrop/EditBackdrop";
+import AddBackdrop from "../AddBackdrop/AddBackdrop";
+import {Baseurl} from "../../App";
+import axios from "axios";
 import {
   createStyles,
   fade,
@@ -73,12 +80,41 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Main = () => {
+
   const [width,setwidth] = React.useState("0px");
+  const currentindex = useSelector((state:RootState)=> state.currentindex);
+  const editbackdrop= useSelector((state:RootState)=> state.editbackdrop);
+  const [value,setvalue] = React.useState("");
+  const arr = [<Blog/>,<Profile/>];
+  const onsearch = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    setvalue(e.target.value);  
+    try{
+      const result = await axios({
+        method:"post",
+        url:`${Baseurl}/onsearch`,
+        headers:{
+          "accept":"application/json",
+          "content-type":"application/json"
+        },
+        data:{token:localStorage.getItem("token"),username:e.target.value}
+      });
+      console.log(result.data);
+    }catch{
+
+    }
+  }
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      {
+        (editbackdrop)?(
+          <EditBackdrop/>
+          ):(
+            <AddBackdrop/>
+          )
+      }
       <Drawer data={{width}}/>
-      <AppBar position="static" style={{position:"fixed",zIndex:9999}}>
+      <AppBar position="static" style={{position:"fixed",zIndex:9999,top:0}}>
         <Toolbar>
           <IconButton
             onClick={
@@ -108,6 +144,8 @@ const Main = () => {
               <SearchIcon />
             </div>
             <InputBase
+              onChange={onsearch}
+              value={value}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
@@ -118,6 +156,11 @@ const Main = () => {
           </div>
         </Toolbar>
       </AppBar>
+      <div className="container">
+        {
+          arr[currentindex]
+        }
+      </div>
     </div>
   );
 };
