@@ -97,3 +97,28 @@ export const postpic = (
       return state;
   }
 };
+
+export const onsearch = (
+  state = [],
+  action: { payload: [], type: string }
+) => {
+  switch (action.type) {
+    case "onsearch":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const currentprofile = (
+  state = {},
+  action: { payload: {}, type: string }
+) => {
+  switch (action.type) {
+    case "currentprofile":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+

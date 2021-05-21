@@ -22,7 +22,7 @@ const onsearch = async (req,res,db) => {
             }
           ]
         },
-        include:[db.posts],
+        include:[db.posts,db.profile],
         attributes:{exclude:["password"]}
       })
       console.log(result);

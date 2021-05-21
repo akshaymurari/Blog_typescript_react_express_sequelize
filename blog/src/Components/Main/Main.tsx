@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Drawer from "../Drawer/Drawer";
 import $ from "jquery";
+import "./Main.scss";
 import Profile from "../Profile/Profile";
 import Blog from "../Blog/Blog";
 import { useSelector,useDispatch } from "react-redux";
@@ -14,6 +15,7 @@ import EditBackdrop from "../EditBackdrop/EditBackdrop";
 import AddBackdrop from "../AddBackdrop/AddBackdrop";
 import {Baseurl} from "../../App";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
 import {
   createStyles,
   fade,
@@ -80,14 +82,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Main = () => {
-
+  const dispatch = useDispatch();
+  const H = useHistory();
+  const searchblog = useSelector((state:RootState)=>state.onsearch);
   const [width,setwidth] = React.useState("0px");
   const currentindex = useSelector((state:RootState)=> state.currentindex);
   const editbackdrop= useSelector((state:RootState)=> state.editbackdrop);
   const [value,setvalue] = React.useState("");
   const arr = [<Blog/>,<Profile/>];
+  const [displays,setdisplays] = React.useState("none");
   const onsearch = async (e:React.ChangeEvent<HTMLInputElement>) => {
-    setvalue(e.target.value);  
+    setvalue(e.target.value);
+    setdisplays("flex");
     try{
       const result = await axios({
         method:"post",
@@ -99,13 +105,22 @@ const Main = () => {
         data:{token:localStorage.getItem("token"),username:e.target.value}
       });
       console.log(result.data);
+      dispatch({type:'onsearch',payload:result.data})
     }catch{
 
     }
   }
+  console.log(searchblog);
+  const getprofile = (details:any) => {
+    console.log(details);
+    dispatch({"type":"currentprofile",payload:details})
+    H.push("/getprofile")
+  }
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="Main" style={{height:"100vh",display:"fixed",zIndex:99999}} onClick={()=>{
+      setdisplays("none");
+    }}>
       {
         (editbackdrop)?(
           <EditBackdrop/>
@@ -154,6 +169,19 @@ const Main = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+              <div className="shadow bg-white" 
+              style={{width:"14rem",height:"18rem",
+              overflowY:"scroll",display:displays,flexDirection:"column",position:"fixed",
+                      transform:"translateX(-60%)",
+                      left:"85%",top:"3.2rem",borderRadius:"0.3rem",flexWrap:"wrap",wordWrap:"break-word"}}>
+                {
+                  searchblog.map((ele:any,index)=>(
+                    <div className="p-3 Searchbox" 
+                      onClick={()=>{getprofile(ele)}}
+                      style={{color:"black",cursor:"pointer"}}>{ele.username}</div>
+                  ))
+                }
+              </div>
         </Toolbar>
       </AppBar>
       <div className="container">
