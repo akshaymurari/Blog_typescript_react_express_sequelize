@@ -35,6 +35,8 @@ db.posts.belongsTo(db.users,{
 });
 db.following = require("../models/following")(sequelize,DataTypes);
 
+db.likes = require("../models/like")(sequelize,DataTypes);
+
 db.users.hasOne(db.profile);
 
 db.users.hasMany(db.following);
@@ -45,6 +47,13 @@ db.profile.belongsTo(db.users,{
   onDelete:"CASCADE",
   onUpdate:"CASCADE"
 })
+
+db.posts.hasMany(db.likes,{
+  onDelete:"cascade",
+  onUpdate:"cascade"
+});
+
+db.likes.belongsTo(db.posts);
 
 sequelize.sync({force:false}).then(()=>{
     console.log("table synced");

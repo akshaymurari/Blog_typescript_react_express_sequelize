@@ -1,18 +1,3 @@
-// import React from 'react';
-// import "./Getuser.scss";
-
-// const Getuser = (props:any) => {
-//     const username = props.match.params.username
-//     console.log(props)
-//     return (
-//         <div>
-//             {username}
-//         </div>
-//     )
-// }
-
-// export default Getuser;
-
 import React from "react";
 import "./Getuser.scss";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,9 +8,13 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import { Baseurl } from "../../App";
+import IconButton from "@material-ui/core/IconButton";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 const Getuser = (props:any) => {
   const username=props.match.params.username;
+  const [likes, setlikes] = React.useState<({color:string,likes:any})[]>([]);
   const [currentprofile,setcurrentprofile]= React.useState<any>({});
   const H = useHistory();
   const [followingstatus, setfollowingstatus] = React.useState("follow");
@@ -33,14 +22,19 @@ const Getuser = (props:any) => {
   const [followadd, setfollowadd] = React.useState(false);
   const [getfollowingstats, setgetfollowingstats] = React.useState(false);
   console.log(currentprofile);
+  const [vis,setvis] = React.useState({
+    followers:"none",
+    following:"none"
+  })
   const [data, setdata] = React.useState({
     username: "",
     profilepic: "https://source.unsplash.com/random",
     bio: "",
-    followers: 0,
-    following: 0,
+    followers: [],
+    following: [],
     posts: 0,
   });
+  console.log(data)
   React.useEffect(() => {
     const getprofile = async () => {
       try {
@@ -88,31 +82,25 @@ const Getuser = (props:any) => {
     getfollowingstatus();
   }, [getfollowingstats]);
   React.useEffect(() => {
-    const getfollowing = async () => {
-      try {
+    const getfollowersandfollowing = async () => {
+      try{
         const result = await axios({
-          method: "post",
-          url: `${Baseurl}/getfollowing`,
-          headers: {
-            accept: "application/json",
-            "content-type": "application/json",
+          method:"post",
+          url:`${Baseurl}/getfollowing`,
+          headers:{
+            "Content-Type":"application/json",
+            accept:"application/json"
           },
-          data: {
-            token: localStorage.getItem("token"),
-            username: username,
-          },
+          data:{token:localStorage.getItem("token"),username}
         });
         console.log(result.data);
-        setdata((pre) => ({
-          ...pre,
-          following: result.data.following.length,
-          followers: result.data.followers.length,
-        }));
-      } catch (error) {
-        console.log(error);
+        setdata((pre)=>({...pre,following:result.data.following,followers:result.data.followers}));
       }
-    };
-    getfollowing();
+      catch{
+  
+      }
+  }
+  getfollowersandfollowing();
   }, [followadd]);
   console.log(currentprofile);
   const followop = async () => {
@@ -169,18 +157,20 @@ const Getuser = (props:any) => {
                 }}
               >
                 <div style={{ width: "max-content", cursor: "pointer" }}>
-                  <li className="text-center">{data.following}</li> <br></br>
-                  <li className="text-center">following</li>
+                  <li className="text-center">{data.following.length}</li> <br></br>
+                  <li className="text-center" onClick={()=>{
+                    setvis({followers:"none",following:"flex"})
+                  }}>following</li>
                   <div
                     className="shadow bg-white"
                     style={{
                       width: "14rem",
                       height: "18rem",
                       overflowY: "scroll",
-                      display: "flex",
+                      display: vis.following,
                       flexDirection: "column",
                       position: "fixed",
-                      transform: "translateX(-60%)",
+                      transform: "translateX(-50%)",
                       left: "50%",
                       top: "3.2rem",
                       borderRadius: "0.3rem",
@@ -189,17 +179,78 @@ const Getuser = (props:any) => {
                       zIndex: 999,
                     }}
                   >
-                    <div
-                      className="p-3  mx-auto"
-                      onClick={() => {
-                        // getprofile(ele);
+                    <IconButton
+                      style={{
+                        // position:"fixed",
+                        width:"max-content",
+                        left:"100%",
+                        transform: "translate(-100%,30%)",
+                        // bottom:"1rem"
+                        marginBottom:"0.3rem"
                       }}
-                      style={{ color: "black", cursor: "pointer",width:"max-content" }}
+                      onClick={()=>{
+                        setvis((pre)=>({...pre,following:"none"}))
+                      }}
                     >
-                      followers
-                    </div>
-                    {currentprofile.followings !== null ? (
-                      currentprofile.followings.map((ele: any) => (
+                       <HighlightOffIcon/>
+                    </IconButton>
+                    {data.following!== null ? (
+                      data.following.map((ele: any) => (
+                        <div
+                          className="p-3 Searchbox"
+                          onClick={() => {
+                            getprofile(ele.userUsername);
+                          }}
+                          style={{ color: "black", cursor: "pointer" }}
+                        >
+                          {ele.userUsername}
+                        </div>
+                      ))
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
+                <div style={{ width: "max-content", cursor: "pointer" }}>
+                  <li className="text-center">{data.followers.length}</li> <br></br>
+                  <li className="text-center" onClick={()=>{
+                    setvis({followers:"flex",following:"none"})
+                  }}>followers</li>
+                  <div
+                    className="shadow bg-white"
+                    style={{
+                      width: "14rem",
+                      height: "18rem",
+                      overflowY: "scroll",
+                      display: vis.followers,
+                      flexDirection: "column",
+                      position: "fixed",
+                      transform: "translateX(-50%)",
+                      left: "50%",
+                      top: "3.2rem",
+                      borderRadius: "0.3rem",
+                      flexWrap: "wrap",
+                      wordWrap: "break-word",
+                      zIndex: 999,
+                    }}
+                  >
+                    <IconButton
+                      style={{
+                        // position:"fixed",
+                        width:"max-content",
+                        left:"100%",
+                        transform: "translate(-100%,30%)",
+                        // bottom:"1rem"
+                        marginBottom:"0.3rem"
+                      }}
+                      onClick={()=>{
+                        setvis((pre)=>({...pre,followers:"none"}))
+                      }}
+                    >
+                       <HighlightOffIcon/>
+                    </IconButton>
+                    {data.followers !== null ? (
+                      data.followers.map((ele: any) => (
                         <div
                           className="p-3 Searchbox"
                           onClick={() => {
@@ -214,10 +265,6 @@ const Getuser = (props:any) => {
                       <></>
                     )}
                   </div>
-                </div>
-                <div style={{ width: "max-content", cursor: "pointer" }}>
-                  <li className="text-center">{data.followers}</li> <br></br>
-                  <li className="text-center">followers</li>
                 </div>
                 <div style={{ width: "max-content", cursor: "pointer" }}>
                   <li className="text-center">
@@ -283,7 +330,8 @@ const Getuser = (props:any) => {
         </div>
       </div>
     );
-  } catch {
+  } catch(error) {
+    console.log(error);
     return <></>;
   }
 };

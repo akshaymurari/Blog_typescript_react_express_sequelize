@@ -9,10 +9,11 @@ const getposts = async (req,res,db) => {
             const result = await db.posts.findAll({
                 where:{
                     userUsername:user.username
-                }
+                },
+                include:[db.likes]
             });
             console.log(result);
-            return res.status(200).send({data:result});
+            return res.status(200).send({data:result,username:user.username});
         }
         return res.status(400).send("invalid jwt token");
     }

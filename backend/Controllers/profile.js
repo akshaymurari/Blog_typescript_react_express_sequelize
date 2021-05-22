@@ -12,7 +12,8 @@ const getprofile = async (req,res,db) => {
         where:{
           username:data.username
         },
-        include:[db.posts,db.profile,db.following]
+        include:[db.posts,db.profile,db.following],
+        attributes:{exclude:["password"]}
       });
       console.log(result);
       return res.status(200).send(result);

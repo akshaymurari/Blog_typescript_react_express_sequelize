@@ -84,5 +84,14 @@ router.post("/getprofile",(req,res) => {
   return require("./Controllers/profile").getprofile(req,res,db);
 })
 
+router.post("/like",(req,res)=>{
+  return require("./Controllers/likes").like(req,res,db);
+})
+
+router.post("/unlike",(req,res)=>{
+  return require("./Controllers/likes").unlike(req,res,db);
+})
+
+
 
 module.exports = router;

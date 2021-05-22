@@ -176,11 +176,11 @@ const SearchResults = () => {
                         <div
                           className="p-3 Searchbox"
                           onClick={() => {
-                            getprofile(ele.username);
+                            getprofile(ele.userUsername);
                           }}
                           style={{ color: "black", cursor: "pointer" }}
                         >
-                          {ele.username}
+                          {ele.userUsername}
                         </div>
                       ))
                     ) : (
