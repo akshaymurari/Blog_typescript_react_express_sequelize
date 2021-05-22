@@ -64,4 +64,25 @@ router.post("/onsearch",(req,res)=>{
   return require("./Controllers/profile").onsearch(req,res,db);
 })
 
+router.post("/follow",(req,res)=>{
+  return require("./Controllers/following").follow(req,res,db);
+})
+
+router.post("/getfollowingstatus",(req,res)=>{
+  return require("./Controllers/following").getfollowingstatus(req,res,db);
+})
+
+router.post("/getfollowing",(req,res)=>{
+  return require("./Controllers/following").getfollowing(req,res,db);
+})
+
+router.post("/getourfollowing",(req,res)=>{
+  return require("./Controllers/following").getourfollowing(req,res,db);
+})
+
+router.post("/getprofile",(req,res) => {
+  return require("./Controllers/profile").getprofile(req,res,db);
+})
+
+
 module.exports = router;

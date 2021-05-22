@@ -1,5 +1,20 @@
+// import React from 'react';
+// import "./Getuser.scss";
+
+// const Getuser = (props:any) => {
+//     const username = props.match.params.username
+//     console.log(props)
+//     return (
+//         <div>
+//             {username}
+//         </div>
+//     )
+// }
+
+// export default Getuser;
+
 import React from "react";
-import "./SearchResults.scss";
+import "./Getuser.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useHistory } from "react-router-dom";
@@ -7,18 +22,11 @@ import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
-import IconButton from "@material-ui/core/IconButton";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { Baseurl } from "../../App";
 
-const SearchResults = () => {
-  const currentprofile: any = useSelector(
-    (state: RootState) => state.currentprofile
-  );
-  const [vis,setvis] = React.useState({
-    followers:"none",
-    following:"none"
-  })
+const Getuser = (props:any) => {
+  const username=props.match.params.username;
+  const [currentprofile,setcurrentprofile]= React.useState<any>({});
   const H = useHistory();
   const [followingstatus, setfollowingstatus] = React.useState("follow");
   const [following, getfollowing] = React.useState([]);
@@ -29,11 +37,33 @@ const SearchResults = () => {
     username: "",
     profilepic: "https://source.unsplash.com/random",
     bio: "",
-    followers: [],
-    following: [],
+    followers: 0,
+    following: 0,
     posts: 0,
   });
-  console.log(data);
+  React.useEffect(() => {
+    const getprofile = async () => {
+      try {
+        const result = await axios({
+          method: "post",
+          url: `${Baseurl}/getprofile`,
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+          },
+          data: {
+            token: localStorage.getItem("token"),
+            username:username,
+          },
+        });
+        console.log(result.data);
+        setcurrentprofile(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getprofile();
+  }, []);
   React.useEffect(() => {
     const getfollowingstatus = async () => {
       try {
@@ -46,7 +76,7 @@ const SearchResults = () => {
           },
           data: {
             token: localStorage.getItem("token"),
-            username: currentprofile.username,
+            username: username,
           },
         });
         console.log(result.data);
@@ -55,29 +85,34 @@ const SearchResults = () => {
         console.log(error);
       }
     };
-  getfollowingstatus();
-  // getfollowersandfollowing();
+    getfollowingstatus();
   }, [getfollowingstats]);
   React.useEffect(() => {
-    const getfollowersandfollowing = async () => {
-      try{
+    const getfollowing = async () => {
+      try {
         const result = await axios({
-          method:"post",
-          url:`${Baseurl}/getourfollowing`,
-          headers:{
-            "Content-Type":"application/json",
-            accept:"application/json"
+          method: "post",
+          url: `${Baseurl}/getfollowing`,
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
           },
-          data:{token:localStorage.getItem("token")}
+          data: {
+            token: localStorage.getItem("token"),
+            username: username,
+          },
         });
         console.log(result.data);
-        setdata((pre)=>({...pre,following:result.data.following,followers:result.data.followers}));
+        setdata((pre) => ({
+          ...pre,
+          following: result.data.following.length,
+          followers: result.data.followers.length,
+        }));
+      } catch (error) {
+        console.log(error);
       }
-      catch{
-  
-      }
-  }
-  getfollowersandfollowing();
+    };
+    getfollowing();
   }, [followadd]);
   console.log(currentprofile);
   const followop = async () => {
@@ -91,7 +126,7 @@ const SearchResults = () => {
         },
         data: {
           token: localStorage.getItem("token"),
-          username: currentprofile.username,
+          username: username,
         },
       });
       console.log(result.data);
@@ -134,20 +169,18 @@ const SearchResults = () => {
                 }}
               >
                 <div style={{ width: "max-content", cursor: "pointer" }}>
-                  <li className="text-center">{data.following.length}</li> <br></br>
-                  <li className="text-center" onClick={()=>{
-                    setvis((pre)=>({followers:"none",following:"flex"}));
-                  }}>following</li>
+                  <li className="text-center">{data.following}</li> <br></br>
+                  <li className="text-center">following</li>
                   <div
                     className="shadow bg-white"
                     style={{
                       width: "14rem",
                       height: "18rem",
                       overflowY: "scroll",
-                      display: vis.following,
+                      display: "flex",
                       flexDirection: "column",
                       position: "fixed",
-                      transform: "translateX(-50%)",
+                      transform: "translateX(-60%)",
                       left: "50%",
                       top: "3.2rem",
                       borderRadius: "0.3rem",
@@ -156,23 +189,17 @@ const SearchResults = () => {
                       zIndex: 999,
                     }}
                   >
-                    <IconButton
-                      style={{
-                        // position:"fixed",
-                        width:"max-content",
-                        left:"100%",
-                        transform: "translate(-100%,30%)",
-                        // bottom:"1rem"
-                        marginBottom:"0.3rem"
+                    <div
+                      className="p-3  mx-auto"
+                      onClick={() => {
+                        // getprofile(ele);
                       }}
-                      onClick={()=>{
-                        setvis((pre)=>({...pre,following:"none"}))
-                      }}
+                      style={{ color: "black", cursor: "pointer",width:"max-content" }}
                     >
-                       <HighlightOffIcon/>
-                    </IconButton>
-                    {data.following!== null ? (
-                      data.following.map((ele: any) => (
+                      followers
+                    </div>
+                    {currentprofile.followings !== null ? (
+                      currentprofile.followings.map((ele: any) => (
                         <div
                           className="p-3 Searchbox"
                           onClick={() => {
@@ -189,59 +216,8 @@ const SearchResults = () => {
                   </div>
                 </div>
                 <div style={{ width: "max-content", cursor: "pointer" }}>
-                  <li className="text-center">{data.followers.length}</li> <br></br>
-                  <li className="text-center" onClick={()=>{
-                    setvis((pre)=>({following:"none",followers:"flex"}));
-                  }}>followers</li>
-                  <div
-                    className="shadow bg-white"
-                    style={{
-                      width: "14rem",
-                      height: "18rem",
-                      overflowY: "scroll",
-                      display: vis.followers,
-                      flexDirection: "column",
-                      position: "fixed",
-                      transform: "translateX(-50%)",
-                      left: "50%",
-                      top: "3.2rem",
-                      borderRadius: "0.3rem",
-                      flexWrap: "wrap",
-                      wordWrap: "break-word",
-                      zIndex: 999,
-                    }}
-                  >
-                    <IconButton
-                      style={{
-                        // position:"fixed",
-                        width:"max-content",
-                        left:"100%",
-                        transform: "translate(-100%,30%)",
-                        // bottom:"1rem"
-                        marginBottom:"0.3rem"
-                      }}
-                      onClick={()=>{
-                        setvis((pre)=>({...pre,followers:"none"}))
-                      }}
-                    >
-                       <HighlightOffIcon/>
-                    </IconButton>
-                    {data.followers !== null ? (
-                      data.followers.map((ele: any) => (
-                        <div
-                          className="p-3 Searchbox"
-                          onClick={() => {
-                            getprofile(ele.username);
-                          }}
-                          style={{ color: "black", cursor: "pointer" }}
-                        >
-                          {ele.username}
-                        </div>
-                      ))
-                    ) : (
-                      <></>
-                    )}
-                  </div>
+                  <li className="text-center">{data.followers}</li> <br></br>
+                  <li className="text-center">followers</li>
                 </div>
                 <div style={{ width: "max-content", cursor: "pointer" }}>
                   <li className="text-center">
@@ -307,10 +283,9 @@ const SearchResults = () => {
         </div>
       </div>
     );
-  } catch(error) {
-    console.log(error);
+  } catch {
     return <></>;
   }
 };
 
-export default SearchResults;
+export default Getuser;

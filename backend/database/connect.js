@@ -33,8 +33,13 @@ db.posts.belongsTo(db.users,{
   onDelete:"CASCADE",
   onUpdate:"CASCADE"
 });
+db.following = require("../models/following")(sequelize,DataTypes);
 
 db.users.hasOne(db.profile);
+
+db.users.hasMany(db.following);
+
+db.following.belongsTo(db.users);
 
 db.profile.belongsTo(db.users,{
   onDelete:"CASCADE",

@@ -1,6 +1,32 @@
 const jwt = require("jsonwebtoken");
 const {Op} = require("sequelize");
 
+const getprofile = async (req,res,db) => {
+  const data = req.body;
+  console.log(db.users);
+  console.log(data);
+  try{
+    const user = require("./auth")(req.body.token);
+    if(user){
+      const result = await db.users.findOne({
+        where:{
+          username:data.username
+        },
+        include:[db.posts,db.profile,db.following]
+      });
+      console.log(result);
+      return res.status(200).send(result);
+    }
+    else{
+      return res.status(400).send("invalid token")
+    }
+  }
+  catch(error){
+    console.log(error);
+    return res.status(400).send("error in getprofile");
+  }
+}
+
 const onsearch = async (req,res,db) => {
   data=req.body;
   console.log(data,"data");
@@ -22,7 +48,7 @@ const onsearch = async (req,res,db) => {
             }
           ]
         },
-        include:[db.posts,db.profile],
+        include:[db.posts,db.profile,db.following],
         attributes:{exclude:["password"]}
       })
       console.log(result);
@@ -115,4 +141,4 @@ const getprofilepic = async (req, res, db) => {
   }
 };
 
-module.exports = { profilepic, getprofilepic,onsearch };
+module.exports = { profilepic, getprofilepic,onsearch,getprofile };
