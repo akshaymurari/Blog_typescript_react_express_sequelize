@@ -24,6 +24,8 @@ const AddBackdrop = () => {
   const classes = useStyles();
   const addbackdrop = useSelector((state: RootState) => state.addbackdrop);
   const postpic = useSelector((state: RootState) => state.postpic);
+  const post = useSelector((state: RootState) => state.post);
+
   const [value,setvalue] = React.useState("");
   const dispatch = useDispatch();
 //   console.log(postpic);
@@ -44,6 +46,7 @@ const AddBackdrop = () => {
               data:{token:localStorage.getItem("token"),tagline:value,profilepic:postpic}
           });
           console.log(result.data);
+          dispatch({type:"post",payload: !post});
       }
       catch{
 

@@ -1,0 +1,19 @@
+.commentbox{
+    width: 450px;
+    @media screen and (max-width:500px){
+        width:300px;
+    }
+    @media screen and (max-width:300px){
+        width:250px;
+    }
+}
+
+.commentbox1{
+    width: 400px;
+    @media screen and (max-width:500px){
+        width:250px;
+    }
+    @media screen and (max-width:300px){
+        width:200px;
+    }
+}

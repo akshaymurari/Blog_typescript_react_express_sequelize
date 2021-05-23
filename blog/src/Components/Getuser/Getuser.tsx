@@ -11,6 +11,8 @@ import { Baseurl } from "../../App";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import Comments from '../Comments/Comments';
+
 
 const Getuser = (props:any) => {
   const username=props.match.params.username;
@@ -36,7 +38,14 @@ const Getuser = (props:any) => {
     following: [],
     posts: 0,
   });
-  console.log(data)
+  console.log(data);
+  const [showcomments,setshowcomments] = React.useState({
+    display:"none",
+    id:0
+  });
+  const close = () => {
+    setshowcomments({display:"none",id:0})
+  }
   React.useEffect(() => {
     const getprofile = async () => {
       try {
@@ -412,6 +421,7 @@ const Getuser = (props:any) => {
             flexWrap: "wrap",
           }}
         >
+          <Comments data={{display:showcomments.display,id:showcomments.id,close}}/>
           {currentprofile.posts.map((ele:any, index:any) => (
             <div className="post mx-3">
               <img src={ele.pic} alt="" style={{ maxWidth: "300px" }} />
@@ -419,6 +429,7 @@ const Getuser = (props:any) => {
               <div style={{width:"max-content",margin:"auto"}}>
                 {
                   (likes[index]!=undefined)?(
+                    <>
                     <p style={{cursor:"pointer"}}>
                       <span onClick={
                         ()=>{
@@ -429,6 +440,17 @@ const Getuser = (props:any) => {
                       onClick={()=>like((likes[index].color=="black")?"like":"unlike",ele.id,index)}
                       style={{color:likes[index].color,cursor:"pointer"}}/>
                     </p>
+                        <div style={{display:"flex",flexWrap:"wrap",justifyContent:"space-around",cursor:"pointer"}}>
+                        <div className="m-0" style={{width:"max-content"}}
+                        onClick={()=>
+                          setshowcomments({
+                            display:"flex",
+                            id:ele.id
+                          })
+                        }
+                        >comments</div>
+                      </div>
+                    </>
                   ):(
                     <></>
                   )

@@ -1,6 +1,6 @@
 import {createStore,combineReducers} from "redux";
 import {currentindex,editbackdrop,editdetails,profilepic,
-    addbackdrop,myposts,postpic,onsearch,currentprofile
+    addbackdrop,myposts,postpic,onsearch,currentprofile,post
 
 } from "./reducers";
 const red = combineReducers({
@@ -13,6 +13,7 @@ const red = combineReducers({
     postpic,
     onsearch,
     currentprofile,
+    post,
 });
 
 const Store = createStore(red);

@@ -122,3 +122,15 @@ export const currentprofile = (
   }
 };
 
+export const post = (
+  state = false,
+  action: { payload:boolean , type: string }
+) => {
+  switch (action.type) {
+    case "post":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+

@@ -92,6 +92,16 @@ router.post("/unlike",(req,res)=>{
   return require("./Controllers/likes").unlike(req,res,db);
 })
 
+router.post("/comment",(req,res)=>{
+  return require("./Controllers/comment").comment(req,res,db);
+})
 
+router.post("/getcomments",(req,res)=>{
+  return require("./Controllers/comment").getcomments(req,res,db);
+})
+
+router.post("/deletepost",(req,res)=>{
+  return require("./Controllers/posts").deletepost(req,res,db);
+})
 
 module.exports = router;

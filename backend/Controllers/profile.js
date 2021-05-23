@@ -14,7 +14,7 @@ const getprofile = async (req,res,db) => {
         },
         include:[db.profile,{
           model:db.posts,
-          include:[db.likes]
+          include:[db.likes,db.comments]
         },db.following],
         attributes:{exclude:["password"]}
       });

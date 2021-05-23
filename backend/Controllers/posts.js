@@ -1,5 +1,27 @@
 const auth = require("./auth");
 
+const deletepost = async (req,res,db) => {
+    try{
+        const data = req.body;
+        const user = auth(data.token);
+        if(user){
+            console.log(user);
+            const result = await db.posts.destroy({
+                where:{
+                    id:data.id
+                }
+            });
+            console.log(result);
+            return res.status(200).send("post deleted");
+        }
+        return res.status(400).send("invalid jwt token");
+    }
+    catch(error){
+        console.log(error);
+        return res.status(400).send("error");
+    }
+}
+
 const getposts = async (req,res,db) => {
     try{
         const data = req.body;
@@ -59,20 +81,7 @@ const addposts = async (req,res,db) => {
             }
             );
             console.log(result);
-            const allposts = await db.posts.findAll({
-                where:{
-                    userUsername:user.username
-                },
-                attributes:["id","pic","tagline"]
-            })
-            console.log(allposts);
-            const senddata=[];
-            for(var i=0;i<allposts.length;i++){
-                var obj = (allposts[i].dataValues);
-                senddata.push({pic:obj.pic, tagline:obj.tagline,id:obj.id})
-            }
-            console.log(senddata,"insend");
-            return res.status(200).send(senddata);
+            return res.status(200).send(result);
         }
         catch(error){
             console.log(error);
@@ -81,4 +90,4 @@ const addposts = async (req,res,db) => {
     }
 }
 
-module.exports = {addposts,getposts}
+module.exports = {addposts,getposts,deletepost}

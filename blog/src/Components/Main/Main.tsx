@@ -110,7 +110,7 @@ const Main = () => {
 
     }
   }
-  console.log(searchblog);
+  console.log(searchblog)
   const getprofile = (details:any) => {
     console.log(details);
     dispatch({"type":"currentprofile",payload:details})
