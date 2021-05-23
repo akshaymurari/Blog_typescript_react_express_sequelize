@@ -12,10 +12,14 @@ const getprofile = async (req,res,db) => {
         where:{
           username:data.username
         },
-        include:[db.posts,db.profile,db.following],
+        include:[db.profile,{
+          model:db.posts,
+          include:[db.likes]
+        },db.following],
         attributes:{exclude:["password"]}
       });
-      console.log(result);
+      console.log(result,"in getprofile");
+      result.dataValues.userUser=user.username;
       return res.status(200).send(result);
     }
     else{

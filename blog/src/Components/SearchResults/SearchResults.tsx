@@ -19,6 +19,7 @@ const SearchResults = () => {
     followers:"none",
     following:"none"
   })
+  console.log(currentprofile);
   const H = useHistory();
   const [followingstatus, setfollowingstatus] = React.useState("follow");
   const [following, getfollowing] = React.useState([]);

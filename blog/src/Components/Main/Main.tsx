@@ -114,7 +114,7 @@ const Main = () => {
   const getprofile = (details:any) => {
     console.log(details);
     dispatch({"type":"currentprofile",payload:details})
-    H.push("/getprofile")
+    H.push(`/getuser/${details.username}`)
   }
   const classes = useStyles();
   return (
