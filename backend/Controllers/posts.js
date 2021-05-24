@@ -45,6 +45,44 @@ const getposts = async (req,res,db) => {
     }
 }
 
+const followingposts = async (req,res,db) => {
+    try{
+        const data = req.body;
+        const user = auth(data.token);
+        if(user){
+            console.log(user);
+            const result = await db.following.findAll({
+                where:{
+                    userUsername:user.username
+                }
+            });
+            console.log(result);
+            const postdata = []
+            for(var i=0;i<result.length;i++){
+                const getisposts = await db.posts.findAll({
+                    where:{
+                        userUsername:result[i].username,           
+                    },
+                    include:[db.likes,db.comments]
+                })
+                for(var j=0;j<getisposts.length;j++){
+                    postdata.push(getisposts[j]);
+                }
+            }
+            postdata.sort((a,b)=>{
+                if(a.createdAt>b.createdAt) return true;
+                return false;
+            })
+            return res.status(200).send({data:postdata,username:user.username});
+        }
+        return res.status(400).send("invalid jwt token");
+    }
+    catch(error){
+        console.log(error);
+        return res.status(400).send("error");
+    }
+}
+
 const addposts = async (req,res,db) => {
     const data = req.body;
     const user = auth(data.token);
@@ -90,4 +128,4 @@ const addposts = async (req,res,db) => {
     }
 }
 
-module.exports = {addposts,getposts,deletepost}
+module.exports = {addposts,getposts,deletepost,followingposts}

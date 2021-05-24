@@ -104,4 +104,8 @@ router.post("/deletepost",(req,res)=>{
   return require("./Controllers/posts").deletepost(req,res,db);
 })
 
+router.post("/followingposts",(req,res)=>{
+  return require("./Controllers/posts").followingposts(req,res,db);
+})
+
 module.exports = router;
