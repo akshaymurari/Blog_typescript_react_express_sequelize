@@ -17,6 +17,8 @@ import {Baseurl} from "../../App";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import Followingposts from "../Followingposts/Followingposts";
+import Likedpics from "../Likedpics/Likedpics";
+
 import {
   createStyles,
   fade,
@@ -90,7 +92,7 @@ const Main = () => {
   const currentindex = useSelector((state:RootState)=> state.currentindex);
   const editbackdrop= useSelector((state:RootState)=> state.editbackdrop);
   const [value,setvalue] = React.useState("");
-  const arr = [<Followingposts/>,<Profile/>];
+  const arr = [<Followingposts/>,<Profile/>,<></>,<Likedpics/>];
   const [displays,setdisplays] = React.useState("none");
   const onsearch = async (e:React.ChangeEvent<HTMLInputElement>) => {
     setvalue(e.target.value);
