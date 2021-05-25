@@ -489,7 +489,7 @@ const Profile = () => {
           }}
         >
           {myposts.map((ele, index) => (
-            <div className="post mx-3">
+            <div className="post shadow p-5 mx-3">
               <img src={ele.pic} alt="" style={{ maxWidth: "300px" }} />
               <p className="mt-3 text-center">{ele.tagline}</p>
               <div style={{ width: "max-content", margin: "auto" }}>

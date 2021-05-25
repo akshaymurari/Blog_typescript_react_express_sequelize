@@ -423,7 +423,7 @@ const Getuser = (props:any) => {
         >
           <Comments data={{display:showcomments.display,id:showcomments.id,close}}/>
           {currentprofile.posts.map((ele:any, index:any) => (
-            <div className="post mx-3">
+            <div className="post shadow p-4 mx-3">
               <img src={ele.pic} alt="" style={{ maxWidth: "300px" }} />
               <p className="mt-3 text-center">{ele.tagline}</p>
               <div style={{width:"max-content",margin:"auto"}}>

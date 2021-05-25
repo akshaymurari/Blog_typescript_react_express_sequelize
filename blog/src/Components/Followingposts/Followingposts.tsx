@@ -177,7 +177,7 @@ const Followingposts = () => {
             data={{ display: showcomments.display, id: showcomments.id, close }}
           />
           {myposts.map((ele: any, index) => (
-            <div className="my-5">
+            <div className="my-5 shadow p-5" style={{maxWidth: "max-content",margin:"auto"}}>
               <img
                 src={ele.pic}
                 alt=""

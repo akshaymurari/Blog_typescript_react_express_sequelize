@@ -106,6 +106,14 @@ router.post("/deletepost",(req,res)=>{
 
 router.post("/followingposts",(req,res)=>{
   return require("./Controllers/posts").followingposts(req,res,db);
+});
+
+router.post("/getfollowersorfollowing",(req,res)=>{
+  return require("./Controllers/following").getfollowersorfollowing(req,res,db);
+});
+
+router.post("/getmychats",(req,res)=>{
+  return require("./Controllers/chat").getmychats(req,res,db);
 })
 
 module.exports = router;

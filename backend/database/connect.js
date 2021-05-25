@@ -39,6 +39,8 @@ db.likes = require("../models/like")(sequelize,DataTypes);
 
 db.comments = require("../models/comments")(sequelize,DataTypes);
 
+db.chats = require("../models/chat")(sequelize,DataTypes);
+
 db.users.hasOne(db.profile);
 
 db.users.hasMany(db.following);

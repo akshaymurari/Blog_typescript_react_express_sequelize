@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import Store from "./redux/store";
 import SearchResults from "./Components/SearchResults/SearchResults";
 import Getuser from "./Components/Getuser/Getuser";
+import ChatInterface from "./Components/ChatInterface/ChatInterface";
 
 export const Baseurl = "http://localhost:8000";
 
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/main" component={Main}></Route>
         <Route exact path="/getprofile" component={SearchResults}></Route>
         <Route exact path="/getuser/:username" component={Getuser}></Route>
+        <Route exact path="/chat/:user" component={ChatInterface}/>
         <Route exact path="" component={Home} />
       </Switch>
     </Provider>

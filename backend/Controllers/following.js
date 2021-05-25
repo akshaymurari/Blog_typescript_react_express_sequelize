@@ -1,3 +1,4 @@
+const {Op} = require("sequelize");
 const follow = async (req,res,db) => {
     try{
         const data = req.body;
@@ -127,4 +128,48 @@ const getourfollowing = async (req,res,db) => {
     }
 }
 
-module.exports = {follow,getfollowing,getfollowingstatus,getourfollowing};
+const getfollowersorfollowing  = async (req,res,db) => {
+    try{
+        const data = req.body;
+        console.log(data);
+        const user = require("./auth")(req.body.token);
+        if(user){
+            data.username=req.body.data;
+            let result = await db.following.findAll({
+                where:{
+                    [Op.or]:[
+                        {
+                            userUsername:{
+                                [Op.substring]:data.username,
+                            }
+                        },
+                        {
+                            username:{
+                                [Op.substring]:data.username
+                            }
+                        }
+                    ],
+                },
+                attributes:['username','userUsername']
+            })
+            let ans=[]
+            for(var i=0;i<result.length;i++){
+                if(result[i].username!=user.username){
+                    ans.push(result[i].username);
+                }
+                if(result[i].userUsername!=user.username){
+                    ans.push(result[i].userUsername);
+                }
+            }
+            ans=[...new Set(ans)]
+            return res.status(200).send(ans);
+        }else{
+            return res.status(400).send("invalid token")
+        } 
+    }catch(error){
+        console.log(error);
+        return res.status(400).send("error in getfollowing")
+    }
+}
+
+module.exports = {follow,getfollowing,getfollowingstatus,getourfollowing,getfollowersorfollowing};

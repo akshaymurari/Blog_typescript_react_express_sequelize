@@ -177,7 +177,7 @@ const Likedpics = () => {
             data={{ display: showcomments.display, id: showcomments.id, close }}
           />
           {myposts.map((ele: any, index) => (likes[index].color=="red")?(
-            <div className="my-5">
+            <div className="my-5 post shadow p-5" style={{maxWidth: "max-content",margin:"auto"}}>
               <img
                 src={ele.pic}
                 alt=""
