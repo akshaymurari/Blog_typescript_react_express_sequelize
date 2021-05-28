@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const {Server} = require("socket.io");
 const WebSocket = require("ws");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
@@ -23,6 +24,37 @@ const server = app.listen(8000, (err) => {
     console.log("connected");
   }
 });
+
+// const io = new Server(server,{
+//   cors: {
+//     origin: '*',
+//   }
+// });
+
+
+
+// io.use((socket,next)=>{
+//   console.log("heloo")
+//   const token = JSON.parse(socket.handshake.auth.token);
+//   const user =  require("./Controllers/auth.js")(token);
+//   console.log(user.username);
+//   if(user){
+//     next();
+//   }
+//   else{
+//     next(new Error("Authentication Error"));
+//   }
+// }).on("connection",(socket)=>{
+//   console.log(socket.handshake.auth.token);
+//   console.log("conntected");
+//   socket.on("typing",(msg)=>{
+//     io.emit(msg);
+//   });
+// });
+
+
+
+// chats implemented with ws old version 
 
 const wss = new WebSocket.Server({
   server,
@@ -89,7 +121,10 @@ wss.on("connection", (ws, req, client) => {
         message: msg.message,
       });
       wss.clients.forEach(async (ws) => {
-        if (ws.readyState == WebSocket.OPEN) {
+        // console.log(ws._protocol);
+        const user1 = require("./Controllers/auth")(ws._protocol);
+        if (ws.readyState == WebSocket.OPEN && (user1.username==user.username || user1.username == msg.username)) {
+          console.log("ws is ...",ws);
           const result = await db.chats.findAll({
             where: {
               [Op.or]: [

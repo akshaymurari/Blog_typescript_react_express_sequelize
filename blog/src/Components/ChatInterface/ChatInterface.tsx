@@ -3,14 +3,29 @@ import "./ChatInterface.scss";
 import TextField from "@material-ui/core/TextField";
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from "@material-ui/core/IconButton";
+import io from "socket.io-client";
+import {Baseurl} from "../../App";
 
 const ChatInterface = (props: any) => {
   // console.log(props);
+  // const socket = io(`${Baseurl}`,
+  // {
+  //   // transports:["websockets","polling"],
+  //   auth:{
+  //     token:JSON.stringify(localStorage.getItem("token"))
+  //   },
+  // });
+  // socket.on("connect_error",()=>{
+  //   console.log("disconnected");
+  //   socket.disconnect();
+  // });
+
   const username:unknown=props.match.params.user;
   const [value,setvalue] = React.useState("");
-  const [onmessage,setonmessage] = React.useState(false)
+  const [onmessage,setonmessage] = React.useState(false);
   const [messages,setmessages] = React.useState([]);
-  // console.log(messages);
+  console.log(messages);
+
   React.useEffect(()=>{
     const token:unknown = localStorage.getItem("token");
     console.log(token);
