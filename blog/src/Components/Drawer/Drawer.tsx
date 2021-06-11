@@ -3,10 +3,12 @@ import "./Drawer.scss";
 import IconButton from "@material-ui/core/IconButton";
 import {useDispatch,useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
+import {useHistory} from "react-router-dom";
 
 const Drawer = (props: { data: { width: string } }) => {
   const currentindex = useSelector((state:RootState)=>state.currentindex);
   const dispatch = useDispatch();
+  const H = useHistory();
   const [current, setcurrent] = React.useState(currentindex);
   const data: { name: string }[] = [
     {
@@ -20,6 +22,9 @@ const Drawer = (props: { data: { width: string } }) => {
     },
     {
         name:"liked pics"
+    },
+    {
+      name:"logout"
     }
   ];
   return (
@@ -34,8 +39,14 @@ const Drawer = (props: { data: { width: string } }) => {
                   (
                       <li id={(index===current)?"Drawerlicolor":""}
                       onClick={()=>{
-                          dispatch({"type":"currentindex",payload:index})
-                          setcurrent(index);
+                          if(ele.name=="logout"){
+                            localStorage.removeItem("token");
+                            H.push("/");
+                          }
+                          else{
+                            dispatch({"type":"currentindex",payload:index})
+                            setcurrent(index);
+                          }
                       }}
                       >{ele.name}</li>
                   )
