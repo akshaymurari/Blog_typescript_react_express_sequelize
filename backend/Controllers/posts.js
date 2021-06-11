@@ -53,15 +53,15 @@ const followingposts = async (req,res,db) => {
             console.log(user);
             const result = await db.following.findAll({
                 where:{
-                    userUsername:user.username
+                    username:user.username
                 }
             });
-            console.log(result);
+            console.log("result is ",result);
             const postdata = []
             for(var i=0;i<result.length;i++){
                 const getisposts = await db.posts.findAll({
                     where:{
-                        userUsername:result[i].username,           
+                        userUsername:result[i].userUsername,           
                     },
                     include:[db.likes,db.comments]
                 })
@@ -73,6 +73,7 @@ const followingposts = async (req,res,db) => {
                 if(a.createdAt>b.createdAt) return true;
                 return false;
             })
+            console.log(postdata)
             return res.status(200).send({data:postdata,username:user.username});
         }
         return res.status(400).send("invalid jwt token");
