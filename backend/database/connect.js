@@ -5,7 +5,7 @@ const sequelize = new Sequelize(
   process.env.dbuser,
   process.env.dbpassword,
   {
-    "host":"localhost",
+    "host":process.env.dbhost,
     "dialect":"mysql",
     // "logging":false
   }
