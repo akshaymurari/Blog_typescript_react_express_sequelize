@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Socionetwork_typescript_react_express_sequelize/static/css/main.53e0ed11.chunk.css",
-    "main.js": "/Socionetwork_typescript_react_express_sequelize/static/js/main.c1e5929c.chunk.js",
-    "main.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/main.c1e5929c.chunk.js.map",
-    "runtime-main.js": "/Socionetwork_typescript_react_express_sequelize/static/js/runtime-main.10ef3ed5.js",
-    "runtime-main.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/runtime-main.10ef3ed5.js.map",
-    "static/js/2.a60db157.chunk.js": "/Socionetwork_typescript_react_express_sequelize/static/js/2.a60db157.chunk.js",
-    "static/js/2.a60db157.chunk.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/2.a60db157.chunk.js.map",
-    "static/js/3.8458bbe2.chunk.js": "/Socionetwork_typescript_react_express_sequelize/static/js/3.8458bbe2.chunk.js",
-    "static/js/3.8458bbe2.chunk.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/3.8458bbe2.chunk.js.map",
-    "index.html": "/Socionetwork_typescript_react_express_sequelize/index.html",
-    "static/css/main.53e0ed11.chunk.css.map": "/Socionetwork_typescript_react_express_sequelize/static/css/main.53e0ed11.chunk.css.map",
-    "static/js/2.a60db157.chunk.js.LICENSE.txt": "/Socionetwork_typescript_react_express_sequelize/static/js/2.a60db157.chunk.js.LICENSE.txt"
+    "main.css": "/socionetworkfrontenddeploy/static/css/main.53e0ed11.chunk.css",
+    "main.js": "/socionetworkfrontenddeploy/static/js/main.c2e3281f.chunk.js",
+    "main.js.map": "/socionetworkfrontenddeploy/static/js/main.c2e3281f.chunk.js.map",
+    "runtime-main.js": "/socionetworkfrontenddeploy/static/js/runtime-main.827678d9.js",
+    "runtime-main.js.map": "/socionetworkfrontenddeploy/static/js/runtime-main.827678d9.js.map",
+    "static/js/2.3eaf1be6.chunk.js": "/socionetworkfrontenddeploy/static/js/2.3eaf1be6.chunk.js",
+    "static/js/2.3eaf1be6.chunk.js.map": "/socionetworkfrontenddeploy/static/js/2.3eaf1be6.chunk.js.map",
+    "static/js/3.8458bbe2.chunk.js": "/socionetworkfrontenddeploy/static/js/3.8458bbe2.chunk.js",
+    "static/js/3.8458bbe2.chunk.js.map": "/socionetworkfrontenddeploy/static/js/3.8458bbe2.chunk.js.map",
+    "index.html": "/socionetworkfrontenddeploy/index.html",
+    "static/css/main.53e0ed11.chunk.css.map": "/socionetworkfrontenddeploy/static/css/main.53e0ed11.chunk.css.map",
+    "static/js/2.3eaf1be6.chunk.js.LICENSE.txt": "/socionetworkfrontenddeploy/static/js/2.3eaf1be6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.10ef3ed5.js",
-    "static/js/2.a60db157.chunk.js",
+    "static/js/runtime-main.827678d9.js",
+    "static/js/2.3eaf1be6.chunk.js",
     "static/css/main.53e0ed11.chunk.css",
-    "static/js/main.c1e5929c.chunk.js"
+    "static/js/main.c2e3281f.chunk.js"
   ]
 }
