@@ -14,12 +14,12 @@ require("./database/connect.js");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 app.use(cors());
-app.use(bodyParser.urlencoded({ limit: "1mb", extended: true }));
-app.use(bodyParser.json({ limit: "1mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "3mb", extended: true }));
+app.use(bodyParser.json({ limit: "3mb", extended: true }));
 const router = require("./router");
 app.use(router);
-
-const server = app.listen(8000, (err) => {
+const port = process.env.PORT || 8000;
+const server = app.listen(port, (err) => {
   if (!err) {
     console.log("connected");
   }

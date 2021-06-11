@@ -1,12 +1,17 @@
 const { Sequelize,DataTypes } = require("sequelize");
 
 const sequelize = new Sequelize(
-  "ecommerce",
+  process.env.dbname,
   process.env.dbuser,
   process.env.dbpassword,
   {
     "host":process.env.dbhost,
     "dialect":"mysql",
+    dialectOptions: {
+      "ssl": {
+        "require": true
+     }
+    }
     // "logging":false
   }
 );
