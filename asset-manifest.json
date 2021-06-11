@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Socionetwork_typescript_react_express_sequelize/static/css/main.53e0ed11.chunk.css",
-    "main.js": "/Socionetwork_typescript_react_express_sequelize/static/js/main.c2e3281f.chunk.js",
-    "main.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/main.c2e3281f.chunk.js.map",
+    "main.js": "/Socionetwork_typescript_react_express_sequelize/static/js/main.b2b2b4f3.chunk.js",
+    "main.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/main.b2b2b4f3.chunk.js.map",
     "runtime-main.js": "/Socionetwork_typescript_react_express_sequelize/static/js/runtime-main.10ef3ed5.js",
     "runtime-main.js.map": "/Socionetwork_typescript_react_express_sequelize/static/js/runtime-main.10ef3ed5.js.map",
     "static/js/2.3eaf1be6.chunk.js": "/Socionetwork_typescript_react_express_sequelize/static/js/2.3eaf1be6.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.10ef3ed5.js",
     "static/js/2.3eaf1be6.chunk.js",
     "static/css/main.53e0ed11.chunk.css",
-    "static/js/main.c2e3281f.chunk.js"
+    "static/js/main.b2b2b4f3.chunk.js"
   ]
 }
